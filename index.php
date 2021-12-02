@@ -29,7 +29,7 @@ function my_session_start(){
 	}
 	return session_start();
 }
-define('DEBUG', false);
+define('DEBUG', true);
 if(DEBUG == true){
 	error_reporting(E_ALL);
 	//error_reporting(E_ALL ^ E_NOTICE);
@@ -143,7 +143,7 @@ if(!$_POST){
 	}
 }
 // Login über Cookie mit Datenüberprüfung - bei Mehrbenutzerbetrieb sollte nicht über sookie eingeloggt werden
-if($_COOKIE["lname"] and $_COOKIE["lpass"] and $_settings->_array[19][1] == "0" and ($_SESSION['admin'] == NULL OR $_SESSION['admin'] == "")){
+if(isset($_COOKIE["lname"]) and isset($_COOKIE["lpass"]) and $_settings->_array[19][1] == "0" and ($_SESSION['admin'] == NULL OR $_SESSION['admin'] == "")){
 	$_logcheck->login($_POST, $_users->_array);
 }
 // Loginformular - Datenüberprüfung

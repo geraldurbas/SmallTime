@@ -1,0 +1,24 @@
+Time;30.10.2021 - 23:28;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
+Time;30.10.2021 - 23:28;Fehler in;./Data/Herwig/img/.htaccess;.htaccess im Personalbildpfad gesetzt
+Time;30.10.2021 - 23:32;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.10.2021 - 23:32;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.10.2021 - 23:46;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.10.2021 - 23:46;Fehler in;./Data/_zip/Herwig/.htaccess;.htaccess - ZIP-Berechtigung gestzt in ./Data/_zip/Herwig/
+Time;30.10.2021 - 23:49;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.10.2021 - 23:49;Fehler in;./Data/_zip/Gastro/.htaccess;.htaccess - ZIP-Berechtigung gestzt in ./Data/_zip/Gastro/
+Time;30.10.2021 - 23:49;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
+Time;30.10.2021 - 23:49;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.10.2021 - 23:49;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;31.10.2021 - 18:50;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
+Time;31.10.2021 - 18:50;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;31.10.2021 - 18:50;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;31.10.2021 - 19:20;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
+Time;31.10.2021 - 19:20;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;31.10.2021 - 19:20;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.11.2021 - 14:03;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
+Time;30.11.2021 - 14:03;Fehler in;./Data/alexaoe/img/.htaccess;.htaccess im Personalbildpfad gesetzt
+Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
+Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.

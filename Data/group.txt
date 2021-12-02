@@ -1,2 +1,4 @@
 1;Administratoren;1
-2;Mitarbeiter;1
+2;Mitarbeiter;2
+3;Gastro;3
+4;Kassa;4
