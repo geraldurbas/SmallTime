@@ -10,13 +10,10 @@
 if(strstr($_template->_bootstrap,'true'))
 {
 	?>
-	<img style="width: 100%" src="images/ico/groups.png">
-	<form style="padding: 5px;" name="login" action='index.php?action=login_mehr&timestamp=<?php echo time() ?>&token=<?php echo $token ?>&group=<?php echo $_grpwahl + 1; ?>' method='post' target='_self'>
-		<div class="alert alert-block">
-			<h4>
-				Schnell-Stempeln!
-			</h4>
-		</div>
+	<form style="padding: 5px; border:1px solid grey" name="login" action='index.php?action=login_mehr&timestamp=<?php echo time() ?>&token=<?php echo $token ?>&group=<?php echo $_grpwahl + 1; ?>' method='post' target='_self'>
+			<h3>
+				Schnelles Einbuchen
+			</h3>
 		<label for="inputname">
 			Name:
 		</label>
@@ -49,15 +46,11 @@ if(strstr($_template->_bootstrap,'true'))
 		$_Userpfad = "";
 	}
 	?>
-	<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 45%" href="admin.php">
-		<img style="width: 100%;" src="images/ico/admin.png" alt="" />
-		<br>
-		Admin - Login
+	<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 100%" href="admin.php">
+		-> Admin - Login
 	</a>
-	<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 45%" href="index.php?group=-1">
-		<img style="width: 100%" src="images/ico/user-icon.png" alt="" />
-		<br>
-		Single - Login
+	<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 100%" href="index.php?group=-1">
+		-> Mitarbeiter - Login
 	</a>
 	<span class="clearfix">
 	</span>

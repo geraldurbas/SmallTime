@@ -143,7 +143,9 @@ if (strstr($_template->_modal, 'true')) $modal = "&modal";
 			echo " <td " . $_monat->_MonatsArray[$z][30] . " width=16 align=center>" . $_monat->_MonatsArray[$z][33] . "</td>\n";
 		}
 		if ($_settings->_array[18][1] && !$edit) {
-			echo " <td " . $_monat->_MonatsArray[$z][30] . " width=16 align=center>" . $_monat->_MonatsArray[$z][37] . "</td>\n";
+			echo " <td " . $_monat->_MonatsArray[$z][30] . " width=16 align=center>";
+			if (isset($_monat->_MonatsArray[$z][37])) echo $_monat->_MonatsArray[$z][37];
+			echo "</td>\n";
 		}
 		echo " </tr>\n";
 	}

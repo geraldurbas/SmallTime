@@ -1,5 +1,4 @@
 <?php
-
 /********************************************************************************
  * Small Time
 /*******************************************************************************
@@ -39,7 +38,7 @@ if (DEBUG == true) {
 	ini_set("display_errors", 1);
 } else {
 	error_reporting(0);
-	error_reporting(E_ALL);
+	#error_reporting(E_ALL);
 	ini_set("display_errors", 0);
 }
 // Zeitzone setzten, damit die Stunden richtig ausgerechnet werden
@@ -124,53 +123,62 @@ $_template->_user02 = "sites_login/login_mehr_02.php";
 $_template->_user04 = "sites_login/login_mehr_04.php";
 $_template->_user03 = "sites_admin/admin03.php";
 $_template->set_portal(0);
+
 $_favicon = "./images/favicon_admin.ico";
 // ----------------------------------------------------------------------------
 // Controller für Login
 // ----------------------------------------------------------------------------
 $_logcheck = new time_login();
 $_logcheck->_admins = true; //Nur Admins dürfen sich einloggen (ID = 0 oder Pos. 3 ein 1 oder in der ersten Gruppe die nicht angezeigt wird in der Gruppenansicht)
+
 // ----------------------------------------------------------------------------
 // Sicherheitsüberprüfung, gehört die Session zu einem Admin
 // (falls bei index.php eingeloggt, existiert eine Session)
 // ----------------------------------------------------------------------------
+
 $_logcheck->checkadmin($_users->_array);
 // ----------------------------------------------------------------------------
 // falls eine Session exisitert und kein Action
-if (@$_SESSION['admin'] and !@$_GET['action']) {
+if (isset($_SESSION['admin']) and !isset($_GET['action'])) {
 	$_logcheck->rapport(@$_SESSION['admin'], "korrekt", "Session");
 }
 // keine Session vorhanden
-if (@$_SESSION['admin'] == NULL or @$_SESSION['admin'] == "") {
-	$_Userpfad = @$_SESSION['admin'] . "/";
+if (isset($_SESSION['admin']) and ( $_SESSION['admin'] == NULL or $_SESSION['admin'] == "")) {
+	$_Userpfad = $_SESSION['admin'] . "/";
 }
 // Login über Cookie mit Datenüberprüfung
-if (@$_COOKIE["lname"] and @$_COOKIE["lpass"] and (@$_SESSION['admin'] == NULL or @$_SESSION['admin'] == "")) {
+if (isset($_COOKIE['lname'])
+		and	isset($_COOKIE['lpass'])
+		and (
+			isset($_SESSION['admin']) and ($_SESSION['admin'] == NULL or $_SESSION['admin'] == "")
+		)
+	) {
 	$_logcheck->login($_POST, $_users->_array);
 }
 // Loginformular - Datenüberprüfung
 if (isset($_POST['login'])) {
-	$_logcheck->login($_POST, $_users->_array);;
+	$_logcheck->login($_POST, $_users->_array);
 }
-if (@$_GET['action'] == "logout") {
+if (isset($_GET['action']) and $_GET['action'] == "logout") {
 	$_logcheck->logout();
 	header("Location: admin.php");
 	exit();
 }
+
 // ----------------------------------------------------------------------------
 // Controller für Action
 // ----------------------------------------------------------------------------
 // Session  vorhanden - Daten anzeigen
-if (@$_SESSION['admin'] and !@$_GET['action']) {
+if (isset($_SESSION['admin']) and !isset($_GET['action'])) {
 	$_action = "show_admin";
-} elseif (@$_GET['action'] && @$_SESSION['admin']) {
+} elseif (isset($_GET['action']) && isset($_SESSION['admin'])) {
 	$_action = @$_GET['action'];
 	$_grpwahl = @$_GET['group'] - 1;
 	//$_grpwahl = $_GET['group'] - 1;
-} elseif (@$_GET['group']) {
+} elseif (isset($_GET['group'])) {
 	$_grpwahl = $_GET['group'] - 1;
 	$_action  = "login_mehr";
-	if (@$_GET['group'] == "-1") {
+	if ($_GET['group'] == "-1") {
 		$_action = "login_einzel";
 	}
 } elseif ($_settings->_array[19][1] == "1") {

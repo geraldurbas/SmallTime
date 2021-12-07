@@ -26,6 +26,7 @@ class time_month
 	private $_zeitzuschlag			= NULL;
 	private $_absenzberechnung 		= NULL;
 	private $_absenzberechnungArbeitszeit = NULL;
+	private $_round_precision 		= 1;
 	public $_SollProTag 			= NULL;	// Soll Arbeitszeit pro Tag
 	public $_letzterTag				= NULL;	// Anzahl der Tage im gewählen Monat	
 	public $_SummeSollProMonat 	= NULL;	// Summe der Soll - Stunden im Monat
@@ -43,7 +44,8 @@ class time_month
 	public $_MonatsArray 			= NULL;	// Array des Monats
 	public $_modal				= NULL;
 	public $_modal_str				= NULL;
-
+	
+	
 	function __construct($SettingCountry, $lastday, $ordnerpfad, $jahr, $monat, $arbeitstage, $ufeiertag, $_SollProTag, $_startzeit, $arbeitszeit, $autopause, $absenzberechnung, $absenzberechnungArbeitszeit)
 	{
 		$this->_file = "./Data/" . $ordnerpfad . "/Rapport/";
@@ -108,9 +110,9 @@ class time_month
 			fputs($fp, ";" . $_zeilenvorschub);
 			fputs($fp, ";");
 			fclose($fp);
-		} else {
+		} #else {
 			$_year_data = file($_file);
-		}
+		#}
 		// Saldo; Ferien; Sollstunden; Work
 		// (Sollstunden und Work mit Jahresanzeige berechnen und eintragen lassen)
 		$_stunden = str_ireplace('\n', '', $_year_data[$monat - 1]);
@@ -198,7 +200,7 @@ class time_month
 				$tmp = $this->_MonatsArray[$i][8];
 				$tmp1 = 0;
 			}
-			$tmp = round($tmp * floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][17]) / 100, 2);
+			$tmp = round($tmp * floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][17]) / 100, $this->_round_precision);
 			$this->_MonatsArray[$i][18] = $tmp;
 			$this->_MonatsArray[$i][19] = "";
 
@@ -213,7 +215,7 @@ class time_month
 			// Arbeitstag 	(4) 	in Anzahl
 			// Wenn Absenz und keine Arbeitszeiten dann ist Absenz = Absenz (Anzahl) * Arbeitstag (Gewichtung)
 			if ($this->_MonatsArray[$i][15] and $this->_MonatsArray[$i][13] == 0) {
-				$this->_MonatsArray[$i][15] = round(floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][4]), 2);
+				$this->_MonatsArray[$i][15] = round(floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][4]), $this->_round_precision);
 			}
 			// saldo pro Tag = arbeitszeit(13) plus absenzzeit(18) minus soll(8)
 			$saldo = 0;
@@ -226,24 +228,25 @@ class time_month
 			}
 			//wenn absenz(15) == 1 Prozentual ausrechnen sowie tmp=0(nicht in der Zukunft)
 			if ($this->_MonatsArray[$i][15] == 1 and $tmp1 == 1) {
-				$this->_MonatsArray[$i][18] = round((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) * floatval($this->_MonatsArray[$i][17]) / 100, 2);
-				$this->_MonatsArray[$i][15] = round((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) / floatval($this->_MonatsArray[$i][8]), 2);
-				$this->_MonatsArray[$i][15] = round(floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][4]), 2);
+				$this->_MonatsArray[$i][18] = round((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) * floatval($this->_MonatsArray[$i][17]) / 100, $this->_round_precision);
+				$this->_MonatsArray[$i][15] = round((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) / floatval($this->_MonatsArray[$i][8]), $this->_round_precision);
+				$this->_MonatsArray[$i][15] = round(floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][4]), $this->_round_precision);
 				$saldo = floatval($this->_MonatsArray[$i][18]) + floatval($this->_MonatsArray[$i][13]);
 			}
 			// wenn eine Absenz vorhanden ist und das saldo >0 sowie tmp=0(nicht in der Zukunft)
 			if ($this->_absenzberechnungArbeitszeit == 1) {
 				if ($this->_MonatsArray[$i][15] == 1 and $saldo > 0 and $tmp1 == 0) {
-					$this->_MonatsArray[$i][18] = round((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) * floatval($this->_MonatsArray[$i][17]) / 100, 2);
-					$this->_MonatsArray[$i][15] = round(((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) / floatval($this->_MonatsArray[$i][8])), 2);
-					$this->_MonatsArray[$i][15] = round(floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][4]), 2);
+					$this->_MonatsArray[$i][18] = round((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) * floatval($this->_MonatsArray[$i][17]) / 100, $this->_round_precision);
+					$this->_MonatsArray[$i][15] = round(((floatval($this->_MonatsArray[$i][8]) - floatval($this->_MonatsArray[$i][13])) / floatval($this->_MonatsArray[$i][8])), $this->_round_precision);
+					$this->_MonatsArray[$i][15] = round(floatval($this->_MonatsArray[$i][15]) * floatval($this->_MonatsArray[$i][4]), $this->_round_precision);
 					$saldo = floatval($this->_MonatsArray[$i][18]) + floatval($this->_MonatsArray[$i][13]) - floatval($this->_MonatsArray[$i][8]);
 				}
 			}
-			$saldo = round($saldo, 2);
+			#$saldo = round($saldo, 2);
+			$saldo = round($saldo, $this->_round_precision);
 			$this->_MonatsArray[$i][20] = $saldo;
 			if ($i > 0) {
-				$this->_MonatsArray[$i][21] = round(floatval($this->_MonatsArray[$i - 1][21]) + floatval($this->_MonatsArray[$i][20]), 2);
+				$this->_MonatsArray[$i][21] = round(floatval($this->_MonatsArray[$i - 1][21]) + floatval($this->_MonatsArray[$i][20]), $this->_round_precision);
 			} else {
 				$this->_MonatsArray[$i][21] = floatval($this->_MonatsArray[$i][20]);
 			}
@@ -316,10 +319,10 @@ class time_month
 			$this->_SummeSaldoProMonat 	= $this->_SummeSaldoProMonat + floatval($this->_MonatsArray[$i][20]);
 			$this->_SummeStempelzeiten 		= $this->_SummeStempelzeiten + floatval($this->_MonatsArray[$i][11]);
 
-			$this->_SummeWorkProMonat 	= round($this->_SummeWorkProMonat, 2);
-			$this->_SummeAbsenzProMonat 	= round($this->_SummeAbsenzProMonat, 2);
-			$this->_SummeSaldoProMonat 	= round($this->_SummeSaldoProMonat, 2);
-			$this->_SummeStempelzeiten 		= round($this->_SummeStempelzeiten, 2);
+			$this->_SummeWorkProMonat 	= round($this->_SummeWorkProMonat, $this->_round_precision);
+			$this->_SummeAbsenzProMonat 	= round($this->_SummeAbsenzProMonat, $this->_round_precision);
+			$this->_SummeSaldoProMonat 	= round($this->_SummeSaldoProMonat, $this->_round_precision);
+			$this->_SummeStempelzeiten 		= round($this->_SummeStempelzeiten, $this->_round_precision);
 
 			//-------------------------------------------------------------------------
 			// Summen der Absenzen berechnen
@@ -471,9 +474,10 @@ class time_month
 				$work_m = ($work_m + $work_s) / 100;
 				$work_h = $work_h + $work_m;
 				if ($_debug_berechnung) {
-					echo "<br>Arbeitszeit in Dezimal grundet: " . round($work_h, 2);
+					echo "<br>Arbeitszeit in Dezimal auf 2 grundet: " . round($work_h, 2);
+					echo "<br>Arbeitszeit in Dezimal auf 1 grundet: " . round($work_h, $this->_round_precision);
 				}
-				$_zeit  = round($work_h, 2);
+				$_zeit  = round($work_h, $this->_round_precision);
 				//------------------------------------------------------------------------------------
 				// Autopause berechnen bis V 0.9.007
 				//------------------------------------------------------------------------------------
@@ -528,7 +532,7 @@ class time_month
 				$tmp = explode(";", $_userdaten[$_tmptag]);
 				$Start = $tmp[0];
 				$Ende = $tmp[1];
-				$zuschlag = ($tmp[2] - 100) / 100;
+				$zuschlag = (floatval($tmp[2]) - 100) / 100;
 				$Stempel1 = (date("H", $_stempelzeit[$h]) * 100 + date("i", $_stempelzeit[$h]) * 100 / 60) / 100;
 				$Stempel2 = (date("H", $_stempelzeit[$h + 1]) * 100 + date("i", $_stempelzeit[$h + 1]) * 100 / 60) / 100;
 				if ($_debug) echo " Zeiten : " . $Stempel1 . " - " . $Stempel2;
@@ -536,25 +540,25 @@ class time_month
 				$_tmptime = 0;
 				if ($Stempel1 < $Start && $Stempel2 >= $Start && $Stempel2 < $Ende) {
 					//$this->_zeitzuschlag = "Logik 1 : ". ($Stempel2-$Start) ." Std.";
-					$_tmptime = round(($Stempel2 - $Start) * $zuschlag, 2);
+					$_tmptime = round(($Stempel2 - $Start) * $zuschlag, $this->_round_precision);
 					//$this->_zeitzuschlag = $this->_zeitzuschlag."-" . $_tmptime . "-";
 					$this->_zeitzuschlag = "Zuschlag von " . $Start . " - " . $Ende . " Uhr, " . trim($tmp[2]) . "% / Berechnet : " . $_tmptime . " Std.";
 					if ($_debug) echo " - Logik 1:" . $_tmptime;
 				} elseif ($Stempel1 >= $Start && $Stempel2 <= $Ende) {
 					//$this->_zeitzuschlag = "Logik 2 : " . $_zeit ." Std.";
-					$_tmptime = round(($_zeit) * $zuschlag, 2);
+					$_tmptime = round(($_zeit) * $zuschlag, $this->_round_precision);
 					//$this->_zeitzuschlag = $this->_zeitzuschlag."-" . $_tmptime . "-";
 					$this->_zeitzuschlag = "Zuschlag von " . $Start . " - " . $Ende . " Uhr, " . trim($tmp[2]) . "% / Berechnet : " . $_tmptime . " Std.";
 					if ($_debug) echo " - Logik 2: " . $_zeit . " - " . $_tmptime;
 				} elseif ($Stempel1 <= $Start && $Stempel2 >= $Ende) {
 					//$this->_zeitzuschlag = "Logik 3 : " . ($Ende - $Start) ." Std.";
-					$_tmptime = round(($Ende - $Start) * $zuschlag, 2);
+					$_tmptime = round(($Ende - $Start) * $zuschlag, $this->_round_precision);
 					//$this->_zeitzuschlag = $this->_zeitzuschlag."-" . $_tmptime . "-";
 					$this->_zeitzuschlag = "Zuschlag von " . $Start . " - " . $Ende . " Uhr, " . trim($tmp[2]) . "% / Berechnet : " . $_tmptime . " Std.";
 					if ($_debug) echo " - Logik 3:" . $_tmptime;
 				} elseif ($Stempel1 > $Start && $Stempel1 <= $Ende && $Stempel2 > $Ende) {
 					//$this->_zeitzuschlag = "Logik 4 : " . ($Ende -$Stempel1) . " Std.";
-					$_tmptime = round(($Ende - $Stempel1) * $zuschlag, 2);
+					$_tmptime = round(($Ende - $Stempel1) * $zuschlag, $this->_round_precision);
 					//$this->_zeitzuschlag = $this->_zeitzuschlag."-" . $_tmptime . "-";
 					$this->_zeitzuschlag = "Zuschlag von " . $Start . " - " . $Ende . " Uhr, " . trim($tmp[2]) . "% / Berechnet : " . $_tmptime . " Std.";
 					if ($_debug) echo " - Logik 4:" . $_tmptime;

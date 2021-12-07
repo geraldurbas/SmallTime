@@ -130,7 +130,7 @@ for ($year = $_to; $year <= $_now; $year++) {
 	}
 	if ($year == $startjahr or intval($_user->_modell) != 0) {
 		// Saldo bei Startjahr Vorholzeit Prozentual
-		$_vorholzeit = round($_jahr->_Vorholzeit_pro_Jahr / 12 * (13 - $_jahr->_startmonat), 2);
+		$_vorholzeit = round(intval($_jahr->_Vorholzeit_pro_Jahr) / 12 * (13 - intval($_jahr->_startmonat)), 2);
 		$anzeige[$year]['Summ']['vorholzeit_start'] = $_vorholzeit;
 		$anzeige[$year]['Summ']['vorholzeit'] = $_vorholzeit;
 		$anzeige[$year]['Summ']['Saldo'] = $anzeige[$year]['Summ']['Saldo'] - $_vorholzeit;
@@ -146,10 +146,10 @@ for ($year = $_to; $year <= $_now; $year++) {
 	//Ferien
 	if ($year == $_jahr->_startjahr) {
 		// Ferien bei Startjahr prozentual
-		$_ferien = round($_jahr->_Ferien_pro_Jahr / 12 * (13 - $_jahr->_startmonat), 2);
+		$_ferien = round(intval($_jahr->_Ferien_pro_Jahr) / 12 * (13 - intval($_jahr->_startmonat)), 2);
 		$anzeige[$year]['Summ']['ferien_start'] = $_ferien;
 		$anzeige[$year]['Summ']['ferien_uebertrag'] = $_ferien;
-		$_ferien = $_ferien + $_user->_Ferienguthaben_uebertrag;
+		$_ferien = intval($_ferien) + intval($_user->_Ferienguthaben_uebertrag);
 		$anzeige[$year]['Summ']['feriengutschrift'] = $_ferien;
 		$anzeige[$year]['Summ']['Ferien'] = $_ferien - $anzeige[$year]['Summ']['Ferien'];
 	} else {

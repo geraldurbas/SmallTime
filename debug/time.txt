@@ -22,3 +22,6 @@ Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;;htaccess nicht vorhande
 Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
 Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
 Time;30.11.2021 - 14:15;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;07.12.2021 - 04:47;Fehler in time_funktion_pdf;193;xxxxxx bug001;htaccess nicht vorhanden, wurde erstellt.
+Time;07.12.2021 - 04:47;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.
+Time;07.12.2021 - 04:47;Fehler in time_funktion_pdf;193;;htaccess nicht vorhanden, wurde erstellt.

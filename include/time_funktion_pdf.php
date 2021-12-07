@@ -103,7 +103,7 @@ function erstelle_neu($_drucktime)
 	}
 	$_saldo_start = 0;
 	$_sum['zeit']['monat_ende'] = $_jahr->_saldo_t;
-	$_sum['zeit']['vorholzeit'] = round($_jahr->_Vorholzeit_pro_Jahr / 12,2);
+	$_sum['zeit']['vorholzeit'] = round(floatval($_jahr->_Vorholzeit_pro_Jahr) / 12,2);
 	$ausz = new auszahlung($_time->_monat, $_time->_jahr);
 	$wert = trim($ausz->get_auszahlung($_time->_monat, $_time->_jahr));
 	$_sum['zeit']['auszahlung'] = $wert;

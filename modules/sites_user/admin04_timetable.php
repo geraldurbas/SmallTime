@@ -90,7 +90,7 @@ if (strstr($_template->_modal, 'true')) $modal = "&modal";
                 //-------------------------------------------------------------------------
                 echo " <td " . $_monat->_MonatsArray[$z][30] . " align=center>";
                 if ($_monat->_MonatsArray[$z][13] > 0) {
-                        echo number_format($_monat->_MonatsArray[$z][13], 2, '.', '');
+                        echo number_format(floatval($_monat->_MonatsArray[$z][13]), 2, '.', '');
                 }
                 echo "</td>\n";
                 //-------------------------------------------------------------------------
@@ -98,7 +98,7 @@ if (strstr($_template->_modal, 'true')) $modal = "&modal";
                 //-------------------------------------------------------------------------
                 echo " <td " . $_monat->_MonatsArray[$z][30] . " align=center>";
                 if ($_monat->_MonatsArray[$z][20] > 0) {
-                        echo number_format($_monat->_MonatsArray[$z][20], 2, '.', '');
+                        echo number_format(floatval($_monat->_MonatsArray[$z][20]), 2, '.', '');
                 } elseif ($_monat->_MonatsArray[$z][20] < 0) {
                         echo "<font class=minus>" . number_format($_monat->_MonatsArray[$z][20], 2, '.', '') . "</font>";
                 }

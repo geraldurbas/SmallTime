@@ -217,6 +217,7 @@ class time{
 	function lasttime($_timestamp, $_ordnerpfad){
 		$jahr = date("Y", $_timestamp);
 		$monat = date("n", $_timestamp);
+		$datum = false;
 		$_timeTable = NULL;
 		$_file = "./Data/".$_ordnerpfad."/Timetable/" . $jahr . "." . $monat;	
 		// diesen Monat überprüfen
@@ -226,7 +227,7 @@ class time{
 			$datum = $this->timecount($_timeTable);
 		}
 		// letzten Monat überprüfen falls in diesem keine Einträge drin sind
-		if(count($_timeTable)<1){
+		if(is_array($_timeTable) and count($_timeTable)<1){
 			$monat = $monat-1;
 			$_file = "./Data/".$_ordnerpfad."/Timetable/" . $jahr . "." . $monat;
 			if(file_exists($_file)){

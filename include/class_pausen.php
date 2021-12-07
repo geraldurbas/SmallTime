@@ -52,6 +52,7 @@ class pausen{
 	}
 	public static function save(){
 		$meldung = "";
+		$pausen = false;
 		// ----------------------------------------------------------------------------
 		// $pausen = get_pausen();
 		// ----------------------------------------------------------------------------
@@ -140,7 +141,7 @@ class pausen{
 				$maxpause = floatval($tmp_pausen[1]);
 				if(is_array($tmp_pausen)){
 					if($minpause<= $vergleichszeit AND $maxpause > $vergleichszeit){
-						$return[0] = round( $tmp_pausen[2]/60,2);
+						$return[0] = round( floatval($tmp_pausen[2])/60,2);
 						$return[1] = $p+1;
 						return $return;
 					}

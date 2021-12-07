@@ -33,7 +33,7 @@ echo "<td class=td_background_tag align=left>$_user->_name</td>";
 echo "</tr>";
 echo "<tr>";
 echo "<td class=td_background_tag width=100 align=left>Start - Datum</td>";
-echo "<td class=td_background_tag align=left>" . date("d.m.Y", intval($_user->_BeginnDerZeitrechnung)) . "</td>";
+echo "<td class=td_background_tag align=left>" . date("d.m.Y", floatval($_user->_BeginnDerZeitrechnung)) . "</td>";
 echo "</tr>";
 echo "<tr>";
 echo "<td class=td_background_tag width=100 align=left>Anstellung</td>";

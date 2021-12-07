@@ -17,14 +17,16 @@ class time_login{
 	
 	function __construct(){	
 	}
-	function login($POST,$userlist){
+
+	function login($POST,$userlist) {
+
 		if($this->_admins){
 			if(isset($_POST['_n'])){
 				$this->_username 	= trim($_POST['_n']);
 			}
 			if(isset($_POST['_p'])){
 				$this->_passwort 	= sha1(trim($_POST['_p']));	
-			}	
+			}
 		}else{
 			if($_POST['_n'] and $_POST['_p']){
 				//  Anmeldung über Loginformular
@@ -36,8 +38,10 @@ class time_login{
 			}	
 			}else{
 				// automatische Anmeldung über Cookies
-				$this->_username 	= $_COOKIE["lname"];
-				$this->_passwort 	= $_COOKIE["lpass"];
+				if (isset($_COOKIE["lname"]) && isset($_COOKIE["lpass"])) {
+					$this->_username 	= $_COOKIE["lname"];
+					$this->_passwort 	= $_COOKIE["lpass"];
+				}
 			}
 		}
 		$this->check($userlist);
@@ -96,8 +100,8 @@ class time_login{
 					$this->_username 	= $userlist[trim($u)][1];
 					$this->_passwort 	= $userlist[trim($u)][2];
 					$this->_login		= true;
+					$this->setcookie();
 					$this->setSession(trim($u));
-					$this->setcookie();	
 					$_SESSION['showpdf'] = 1;
 				}
 			}
@@ -126,6 +130,7 @@ class time_login{
 		}
 	}
 	private function setSession($u){
+		my_session_start();
 		$_SESSION['admin'] 	= $this->_datenpfad;
 		$_SESSION['id'] 		= $u;
 		$_SESSION['datenpfad'] 	= $this->_datenpfad;
@@ -150,12 +155,15 @@ class time_login{
 			foreach($_berechtigt as $u){
 				$_name 		= trim($userlist[trim($u)][0]);
 				$_passwort 	= trim($userlist[trim($u)][2]);
-				if($_name == @$_SESSION['admin']){
+				if(isset($_SESSION['admin']) and $_name == $_SESSION['admin']){
 					$_secure = true;
 				}
 			}
 		}
-		if(!$_secure) $this->logout();	
+		if(!$_secure) {
+			### mey be improved
+			$this->logout();
+		}
 	}
 	function logout(){
 		$_SESSION['admin']		="";
@@ -165,7 +173,7 @@ class time_login{
 		$_SESSION['passwort']	="";
 		$_SESSION['login']		="";
 		$_SESSION = array();
-		//session_destroy();
+		session_destroy();
 		setcookie("lname","",time()-3600);
 		setcookie("lpass","",time()-3600);
 	}

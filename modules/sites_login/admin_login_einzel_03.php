@@ -9,15 +9,11 @@
 *******************************************************************************/
 if(strstr($_template->_bootstrap,'true')){
 	echo '
-	<img style="width: 100%" src="images/ico/admin.png">
-<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 45%" href="index.php?group=2">
-        <img style="width: 100%;" src="images/ico/groups.png" alt="" />
-        <br>
-        Multi - Login
+<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 100%" href="index.php?group=2">
+        -> Schnelles Einbuchen
 </a>
-<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 45%" href="index.php?group=-1"><img style="width: 100%" src="images/ico/user-icon.png" alt="" />
-        <br>
-        Single - Login
+<a style="float:left; margin: 2px; padding: 3px; background-color: #bebebe; width: 100%" href="index.php?group=-1">
+       -> Mitarbeiter - Login
 </a>
 <span class="clearfix"></span>
 	';

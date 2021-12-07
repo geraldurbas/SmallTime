@@ -9,6 +9,7 @@
 Data/*
 Data/administrator/*
 debug/*
+debug/time.txt
 .vscode/*
 
 # Recycle Bin used on file shares

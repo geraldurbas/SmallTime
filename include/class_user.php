@@ -43,14 +43,16 @@ class time_user
 		$this->_ordnerpfad	= $_SESSION['datenpfad'];
 		$this->_name		= $_userdaten[0];
 		$this->_WochenArbeiztsZeit = $_userdaten[3];
-		$this->_SollZeitProWoche = ($_userdaten[3] / 100 * $_userdaten[2]);
+		$this->_SollZeitProWoche = (floatval($_userdaten[3]) / 100 * floatval($_userdaten[2]));
 		$this->_SollZeitProzent = $_userdaten[2];
 		$this->_SummeArbeitstage = 0;
 		$this->_arbeitstage = explode(";", $_userdaten[7]);
 		foreach ($this->_arbeitstage as $_tmp) {
-			$this->_SummeArbeitstage = $this->_SummeArbeitstage + $_tmp;
+			$this->_SummeArbeitstage = floatval($this->_SummeArbeitstage) + floatval($_tmp);
 		}
-		$this->_SollZeitProTag = round($this->_SollZeitProWoche / $this->_SummeArbeitstage, 2);
+		if (floatval($this->_SummeArbeitstage)>0){
+			$this->_SollZeitProTag = round(floatval($this->_SollZeitProWoche) / floatval($this->_SummeArbeitstage), 2);
+		}
 		$this->_BeginnDerZeitrechnung = $_userdaten[1];
 		$this->_Vorholzeit_pro_Jahr = $_userdaten[4];
 		$this->_Ferien_pro_Jahr = $_userdaten[5];
@@ -84,7 +86,7 @@ class time_user
 			foreach ($this->_arbeitstage as $_tmp) {
 				$this->_SummeArbeitstage = $this->_SummeArbeitstage + floatval($_tmp);
 			}
-			$this->_SollZeitProTag = round($this->_SollZeitProWoche / $this->_SummeArbeitstage, 2);
+			if ($this->_SummeArbeitstage>0)	$this->_SollZeitProTag = round($this->_SollZeitProWoche / $this->_SummeArbeitstage, 2);
 			$this->_BeginnDerZeitrechnung = $_userdaten[1];
 			$this->_Vorholzeit_pro_Jahr = $_userdaten[4];
 			$this->_Ferien_pro_Jahr = $_userdaten[5];
@@ -255,7 +257,7 @@ class time_user
 		if (file_exists($_file)) {
 			$_userdaten = file($_file);
 			foreach ($_userdaten as $_stempelzeiten) {
-				if (date('j', $_stempelzeiten) == $tag) {
+				if (date('j', floatval($_stempelzeiten)) == $tag) {
 					$_return[] = $_stempelzeiten;
 				}
 			}

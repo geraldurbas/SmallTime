@@ -54,6 +54,7 @@ class time_jahr
 		// Falls jeden Monat die Überzeit auf 0 gestellt wird:
 		if ($this->_modell == 2) {
 			$this->calc_month();
+			$this->calc_auszahlungen();
 			// ---------------------------------------------------------------------------------------
 			// Falls jedes Jahr die Überzeit auf 0 gestellt wird:
 		} elseif ($this->_modell == 1) {
@@ -72,14 +73,16 @@ class time_jahr
 	function get_auszahlung($monat, $jahr)
 	{
 		$anz = 0;
-		for ($i = 0; $i < count($this->_arr_ausz); $i++) {
-			if ($this->_CalcToTimestamp && date("Y", $this->_timestamp) > trim($monat)) {
-				if (trim($this->_arr_ausz[$i][0]) == trim($monat) && trim($this->_arr_ausz[$i][1]) == trim($jahr)) {
-					$anz =  $this->_arr_ausz[$i][2];
-				}
-			} elseif (!$this->_CalcToTimestamp) {
-				if (trim($this->_arr_ausz[$i][0]) == trim($monat) && trim($this->_arr_ausz[$i][1]) == trim($jahr)) {
-					$anz =  $this->_arr_ausz[$i][2];
+		if (is_array($this->_arr_ausz)) {
+			for ($i = 0; $i < count($this->_arr_ausz); $i++) {
+				if ($this->_CalcToTimestamp && date("Y", $this->_timestamp) > trim($monat)) {
+					if (trim($this->_arr_ausz[$i][0]) == trim($monat) && trim($this->_arr_ausz[$i][1]) == trim($jahr)) {
+						$anz =  $this->_arr_ausz[$i][2];
+					}
+				} elseif (!$this->_CalcToTimestamp) {
+					if (trim($this->_arr_ausz[$i][0]) == trim($monat) && trim($this->_arr_ausz[$i][1]) == trim($jahr)) {
+						$anz =  $this->_arr_ausz[$i][2];
+					}
 				}
 			}
 		}
@@ -125,11 +128,11 @@ class time_jahr
 				$_am 	= date("m", $this->_timestamp);
 				// wenn Auszahlungsjahr kleiner, alle Einträge
 				if ($this->_arr_ausz[$i][1] < $_aj) {
-					$this->_tot_ausz += $this->_arr_ausz[$i][2];
+					$this->_tot_ausz += floatval($this->_arr_ausz[$i][2]);
 					//wenn Auszahlungsjahr gleich, dann nur bis zum Monat	
 				} elseif ($this->_arr_ausz[$i][1] == $_aj) {
 					if ($this->_arr_ausz[$i][0] <= $_am) {
-						$this->_tot_ausz += $this->_arr_ausz[$i][2];
+						$this->_tot_ausz += floatval($this->_arr_ausz[$i][2]);
 					}
 				}
 			}
@@ -150,7 +153,7 @@ class time_jahr
 			$this->_data[$i][$z] = explode(";", $zeile);
 			$z++;
 		}
-		$this->_data[$i][$z] = explode(";", $this->_data[$i][$z]);
+		$this->_data[$i][$z] = (isset($this->_data[$i][$z]) && is_array($this->_data[$i][$z]))?explode(";", $this->_data[$i][$z]):[0];
 		$this->_saldo_t = $this->_data[$i][$z][0];
 	}
 	function calc_year()
@@ -174,7 +177,7 @@ class time_jahr
 			$z++;
 		}
 		// jährliche Vorholzeit - Summe hinzurechnen
-		$this->_saldo_t = $this->_summe_t - $this->_Vorholzeit_pro_Jahr - $this->_tot_ausz;
+		$this->_saldo_t = floatval($this->_summe_t) - floatval($this->_Vorholzeit_pro_Jahr) - floatval($this->_tot_ausz);
 		// im Start-Jahr Übertrag hinzufügen
 		if ($this->_startjahr == date("Y", $this->_timestamp)) {
 			$this->_saldo_t = $this->_saldo_t  + $this->_Stunden_uebertrag;
@@ -207,7 +210,7 @@ class time_jahr
 					$year = date("Y", $this->_timestamp);
 					if (date("Y", $this->_timestamp) == $i) {
 						if (date("n", $this->_timestamp) > $z) {
-							$this->_summe_t = $this->_summe_t + $this->_data[$i][$z][0];
+							$this->_summe_t = floatval($this->_summe_t) + floatval($this->_data[$i][$z][0]);
 						}
 					} else {
 						$this->_summe_t = $this->_summe_t + $this->_data[$i][$z][0];
@@ -354,7 +357,7 @@ class time_jahr
 	{
 		// Falls der Startmonat nicht der Januar ist, restliches Guthaben der Ferien berechnen
 		if ($this->_startmonat > 1 && $this->_startjahr == $i) {
-			$Ferien = round(($this->_Ferien_pro_Jahr / 12 * (13 - $this->_startmonat)), 2);
+			$Ferien = round((floatval($this->_Ferien_pro_Jahr) / 12 * (13 - floatval($this->_startmonat))), 2);
 		} else {
 			$Ferien = $this->_Ferien_pro_Jahr;
 		}
